@@ -1,0 +1,124 @@
+﻿@{
+    ViewData["Title"] = "Currency Search";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">Currency Search</h2>
+
+    <!-- Arama Kutusu ve Buton (Bootstrap) -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <input type="text" id="currencyCode" class="form-control" placeholder="Currency Code (e.g. USD)" />
+        </div>
+        <div class="col-md-2">
+            <button id="searchBtn" class="btn btn-dark w-100">SEARCH</button>
+        </div>
+    </div>
+
+    <!-- Hata Mesajları İçin Alan -->
+    <div id="errorMessage" class="alert alert-danger d-none" role="alert"></div>
+
+    <!-- D3.js Grafiğinin Çizileceği Alan -->
+    <div id="chart"></div>
+</div>
+
+@section Scripts {
+    <!-- jQuery ve D3.js Kütüphaneleri -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // HomeController'dan gelen API adresini değişkene alıyoruz
+            var apiUrl = '@ViewBag.ApiUrl';
+
+            $("#searchBtn").click(function () {
+                var code = $("#currencyCode").val().trim().toUpperCase();
+
+                if (!code) {
+                    showError("Lütfen bir kur kodu giriniz.");
+                    return;
+                }
+
+                // Hata mesajını gizle, eski grafiği temizle
+                $("#errorMessage").addClass("d-none");
+                $("#chart").empty();
+
+                // Ajax ile Business API'ye İstek Atıyoruz
+                $.ajax({
+                    url: apiUrl + code,
+                    type: "GET",
+                    success: function (data) {
+                        if (data && data.length > 0) {
+                            drawChart(data);
+                        } else {
+                            showError("Veri bulunamadı.");
+                        }
+                    },
+                    error: function (xhr) {
+                        if (xhr.status === 404) {
+                            showError(code + " kuru için veri bulunamadı.");
+                        } else {
+                            showError("Veri çekilirken bir hata oluştu.");
+                        }
+                    }
+                });
+            });
+
+            // D3.js ile Çizgi Grafik (Line Chart) Çizdirme Fonksiyonu
+            function drawChart(data) {
+                // Verileri D3'ün anlayacağı formata çeviriyoruz
+                var parseDate = d3.timeParse("%Y-%m-%dT%H:%M:%S");
+
+                data.forEach(function(d) {
+                    // API'den gelen tarihi Date objesine çevir
+                    d.parsedDate = new Date(d.date);
+                    // Y ekseninde ForexBuying (Alış) değerini göstereceğiz
+                    d.value = +d.forexBuying;
+                });
+
+                // Grafiğin boyutlarını ve kenar boşluklarını belirliyoruz
+                var margin = { top: 20, right: 30, bottom: 30, left: 50 },
+                    width = 800 - margin.left - margin.right,
+                    height = 400 - margin.top - margin.bottom;
+
+                var svg = d3.select("#chart")
+                    .append("svg")
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", height + margin.top + margin.bottom)
+                    .append("g")
+                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+                // X Ekseni (Tarihler)
+                var x = d3.scaleTime()
+                    .domain(d3.extent(data, function(d) { return d.parsedDate; }))
+                    .range([0, width]);
+                svg.append("g")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(d3.axisBottom(x));
+
+                // Y Ekseni (Kur Değerleri)
+                var y = d3.scaleLinear()
+                    .domain([d3.min(data, function(d) { return d.value; }) - 0.5, d3.max(data, function(d) { return d.value; }) + 0.5])
+                    .range([height, 0]);
+                svg.append("g")
+                    .call(d3.axisLeft(y));
+
+                // Çizgiyi (Path) Ekleme
+                svg.append("path")
+                    .datum(data)
+                    .attr("fill", "none")
+                    .attr("stroke", "steelblue")
+                    .attr("stroke-width", 2)
+                    .attr("d", d3.line()
+                        .x(function(d) { return x(d.parsedDate); })
+                        .y(function(d) { return y(d.value); })
+                    );
+            }
+
+            function showError(message) {
+                $("#errorMessage").text(message).removeClass("d-none");
+            }
+        });
+    </script>
+}

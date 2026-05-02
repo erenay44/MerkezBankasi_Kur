@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36221.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Currency.BusinessApi", "..\merkezbankasi\Currency.BusinessApi\Currency.BusinessApi.csproj", "{4D773EBB-699C-DF7B-2D88-C225A9EEB0F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Currency.DataApi", "..\merkezbankasi\Currency.DataApi\Currency.DataApi.csproj", "{9FE0D3D6-DAAB-FBCF-EA32-F9EF4834E89D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Currency.Web", "..\merkezbankasi\Currency.Web\Currency.Web.csproj", "{829023E3-2CF5-FFC9-A300-51E1FC190CE8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4D773EBB-699C-DF7B-2D88-C225A9EEB0F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D773EBB-699C-DF7B-2D88-C225A9EEB0F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D773EBB-699C-DF7B-2D88-C225A9EEB0F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D773EBB-699C-DF7B-2D88-C225A9EEB0F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FE0D3D6-DAAB-FBCF-EA32-F9EF4834E89D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FE0D3D6-DAAB-FBCF-EA32-F9EF4834E89D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FE0D3D6-DAAB-FBCF-EA32-F9EF4834E89D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FE0D3D6-DAAB-FBCF-EA32-F9EF4834E89D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{829023E3-2CF5-FFC9-A300-51E1FC190CE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{829023E3-2CF5-FFC9-A300-51E1FC190CE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{829023E3-2CF5-FFC9-A300-51E1FC190CE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{829023E3-2CF5-FFC9-A300-51E1FC190CE8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F67C1358-6DB2-4ACA-AA3C-7F61EC30F53A}
+	EndGlobalSection
+EndGlobal
